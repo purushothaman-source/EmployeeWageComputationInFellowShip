@@ -10,16 +10,18 @@ public final class EmployeeWageBuilder {
         int empRatePerHr = 20;
         int empHrs;
         int empCheck = random.nextInt(3);
-        if (empCheck == Is_Full_Time) {
-            System.out.println("Employee is present");
-            empHrs = 8;
-        }else if(empCheck==Is_Part_Time){
-            System.out.println("Employee is Part Time");
-            empHrs=4;
-        }
-        else {
-            System.out.println("Employee is absent");
-            empHrs = 0;
+        switch (empCheck) {
+            case Is_Full_Time:
+                System.out.println("Employee is present");
+                empHrs = 8;
+                break;
+            case Is_Part_Time:
+                System.out.println("Employee is Part Time");
+                empHrs = 4;
+                break;
+            default:
+                System.out.println("Employee is absent");
+                empHrs = 0;
         }
         int salary = empHrs * empRatePerHr;
         System.out.println("Salary : " + salary);
