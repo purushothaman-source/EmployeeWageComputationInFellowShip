@@ -8,12 +8,14 @@ public final class EmployeeWageBuilder {
         final int Is_Full_Time = 1;
         final int Is_Part_Time = 2;
         Random random = new Random();
-        int empRatePerHr = 20;
+        final int empRatePerHr = 20;
         int empHrs = 0;
         int totalEmpHrs = 0;
-
-        for(int i=1;i<=20;i++) {
+        final int totalWorkingDays = 20;
+        int workingDays = 0;
+        while (workingDays < totalWorkingDays && empHrs <= totalEmpHrs) {
             int empCheck = random.nextInt(3);
+            workingDays++;
             switch (empCheck) {
                 case Is_Full_Time:
                     empHrs = 8;
@@ -26,7 +28,7 @@ public final class EmployeeWageBuilder {
             }
             totalEmpHrs += empHrs;
         }
-        System.out.println("TotalEmpHrs : "+totalEmpHrs);
+        System.out.println("TotalEmpHrs : " + totalEmpHrs);
         int salary = totalEmpHrs * empRatePerHr;
         System.out.println("Salary : " + salary);
     }
