@@ -5,6 +5,9 @@ import java.util.Random;
 public final class EmployeeWageBuilder {
 
     public static void main(String[] args) {
+        computeEmpWage();
+    }
+    public static int computeEmpWage(){
         final int Is_Full_Time = 1;
         final int Is_Part_Time = 2;
         Random random = new Random();
@@ -27,9 +30,11 @@ public final class EmployeeWageBuilder {
                     empHrs = 0;
             }
             totalEmpHrs += empHrs;
+            System.out.println("Day :"+workingDays+" Emp Hr: "+empHrs);
         }
         System.out.println("TotalEmpHrs : " + totalEmpHrs);
         int salary = totalEmpHrs * empRatePerHr;
         System.out.println("Salary : " + salary);
+        return salary;
     }
 }
