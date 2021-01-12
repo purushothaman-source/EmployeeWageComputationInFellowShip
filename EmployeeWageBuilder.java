@@ -2,40 +2,59 @@ package com.uccases;
 
 import java.util.Random;
 
-public final class EmployeeWageBuilder {
+class EmpWageForMultipleCompany {
+    public static final int IS_PART_TIME = 1;
+    public static final int IS_FULLTIME = 2;
+    private final String company;
+    private final int empRatePerHour;
+    private final int numOfWorkingDays;
+    private final int maxHoursPerMonth;
+    private int totalEmpWage;
 
-    public static void main(String[] args) {
-        computeEmpWage("TCS",30,20,10);
-        computeEmpWage("ACCENTURE",100,20,10);
-
+    public EmpWageForMultipleCompany(String company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth) {
+        super();
+        this.company = company;
+        this.empRatePerHour = empRatePerHour;
+        this.numOfWorkingDays = numOfWorkingDays;
+        this.maxHoursPerMonth = maxHoursPerMonth;
     }
-    public static void computeEmpWage(String company, int MAX_WORKING_HRS, int NO_OF_WORKING_DAYS, int RATE_PER_HR){
-        final int Is_Full_Time = 1;
-        final int Is_Part_Time = 2;
+
+    public void computeEmpWage() {
+        int empHrs = 0, totalEmpHrs = 0, totalWorkingDays = 0;
         Random random = new Random();
-        final int empRatePerHr = 20;
-        int empHrs = 0;
-        int totalEmpHrs = 0;
-        int workingDays = 0;
-        while (workingDays < NO_OF_WORKING_DAYS && totalEmpHrs <= MAX_WORKING_HRS) {
+        while (totalEmpHrs <= maxHoursPerMonth && totalWorkingDays < numOfWorkingDays) {
+            totalWorkingDays++;
             int empCheck = random.nextInt(3);
-            workingDays++;
             switch (empCheck) {
-                case Is_Full_Time:
-                    empHrs = 8;
-                    break;
-                case Is_Part_Time:
+                case IS_PART_TIME:
                     empHrs = 4;
+                    break;
+                case IS_FULLTIME:
+                    empHrs = 8;
                     break;
                 default:
                     empHrs = 0;
             }
             totalEmpHrs += empHrs;
-            System.out.println("Day :"+workingDays+" Emp Hr: "+empHrs);
+            System.out.println("Day :" + totalWorkingDays + " Emp Hr:" + empHrs);
         }
-        System.out.println("TotalEmpHrs : " + totalEmpHrs);
-        int salary = totalEmpHrs * empRatePerHr;
-        System.out.println("COMPANY :"+company +"Salary : " + salary);
+        totalEmpWage = totalEmpHrs * empRatePerHour;
+    }
 
+    @Override
+    public String toString() {
+        return " [company=" + company + ", totalEmpWage=" + totalEmpWage + "]";
+    }
+}
+
+public final class EmployeeWageBuilder {
+
+    public static void main(String[] args) {
+        EmpWageForMultipleCompany tcs = new EmpWageForMultipleCompany("TCS", 20, 2, 10);
+        tcs.computeEmpWage();
+        System.out.println(tcs);
+        EmpWageForMultipleCompany accenture = new EmpWageForMultipleCompany("Accenture", 10, 4, 20);
+        accenture.computeEmpWage();
+        System.out.println(accenture);
     }
 }
