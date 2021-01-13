@@ -1,15 +1,15 @@
 package com.uccases;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 interface IcomputeEmpWage {
     void addCompanyEmpWage(String company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth);
-
     int computeEmpWage(CompanyEmpWage companyEmpWage);
-
     void computeEmpWage();
-
+    int getTotalWage(String company);
 }
 
 class CompanyEmpWage {
@@ -42,14 +42,16 @@ public class EmployeeWageBuilder implements IcomputeEmpWage {
     public static final int IS_FULL_TIME = 2;
 
     ArrayList<CompanyEmpWage> companyEmpWageList;
-
+    private Map<String, CompanyEmpWage> companyEmpWageMap;
     public EmployeeWageBuilder() {
-        companyEmpWageList = new ArrayList<CompanyEmpWage>();
+        companyEmpWageList = new ArrayList<>();
+        companyEmpWageMap= new HashMap<>();
     }
 
     public void addCompanyEmpWage(String company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth) {
         CompanyEmpWage companyEmpWage = new CompanyEmpWage(company, empRatePerHour, numOfWorkingDays, maxHoursPerMonth);
         companyEmpWageList.add(companyEmpWage);
+        companyEmpWageMap.put(company, companyEmpWage);
     }
 
     public void computeEmpWage() {
@@ -94,6 +96,12 @@ public class EmployeeWageBuilder implements IcomputeEmpWage {
         empWageBuilder.addCompanyEmpWage("Dmart", 20, 2, 10);
         empWageBuilder.addCompanyEmpWage("Reliance", 10, 4, 20);
         empWageBuilder.computeEmpWage();
+        System.out.println("Dmart totalWage ="+empWageBuilder.getTotalWage("Dmart"));
+    }
+
+    @Override
+    public int getTotalWage(String company) {
+        return companyEmpWageMap.get(company).totalEmpWage;
 
     }
 }
