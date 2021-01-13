@@ -2,12 +2,21 @@ package com.uccases;
 
 import java.util.Random;
 
-class CompanyEmpWage{
-    public  final String company;
-    public  final  int empRatePerHour;
+interface IcomputeEmpWage {
+    void addCompanyEmpWage(String company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth);
+
+    int computeEmpWage(CompanyEmpWage companyEmpWage);
+
+    void computeEmpWage();
+
+}
+
+class CompanyEmpWage {
+    public final String company;
+    public final int empRatePerHour;
     public final int numOfWorkingDays;
     public final int maxHoursPerMonth;
-    public  int totalEmpWage;
+    public int totalEmpWage;
 
 
     CompanyEmpWage(String company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth) {
@@ -23,74 +32,69 @@ class CompanyEmpWage{
 
     @Override
     public String toString() {
-        return "company=" + company  + ", totalEmpWage=" + totalEmpWage ;
+        return "company=" + company + ", totalEmpWage=" + totalEmpWage;
     }
 }
 
-public class EmployeeWageBuilder {
-    public static final int IS_PART_TIME=1;
-    public static final int IS_FULL_TIME=2;
+public class EmployeeWageBuilder implements IcomputeEmpWage {
+    public static final int IS_PART_TIME = 1;
+    public static final int IS_FULL_TIME = 2;
 
-    public int numOfCompany=0;
+    public int numOfCompany = 0;
 
     CompanyEmpWage companyEmpWage[];
 
-    public EmployeeWageBuilder()
-    {
-        companyEmpWage=new CompanyEmpWage[5];
+    public EmployeeWageBuilder() {
+        companyEmpWage = new CompanyEmpWage[5];
     }
 
-    private void addCompanyEmpWage(String company,int empRatePerHour,int numOfWorkingDays,int maxHoursPerMonth)
-    {
-        companyEmpWage[numOfCompany]=new CompanyEmpWage(company, empRatePerHour, numOfWorkingDays, maxHoursPerMonth);
+    public void addCompanyEmpWage(String company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth) {
+        companyEmpWage[numOfCompany] = new CompanyEmpWage(company, empRatePerHour, numOfWorkingDays, maxHoursPerMonth);
         numOfCompany++;
     }
 
-    private void computeEmpWage()
-    {
-        for (int i = 0; i <numOfCompany; i++)
-        {
+    public void computeEmpWage() {
+        for (int i = 0; i < numOfCompany; i++) {
             companyEmpWage[i].setTotalEmpWage(this.computeEmpWage(companyEmpWage[i]));
             System.out.println(companyEmpWage[i]);
         }
     }
 
 
-    private int computeEmpWage(CompanyEmpWage companyEmpWage)
-    {
-        int empHrs=0,totalEmpHrs=0,totalWorkingDays=0;
-        Random random=new Random();
-        while(totalEmpHrs<=companyEmpWage.maxHoursPerMonth && totalWorkingDays<companyEmpWage.numOfWorkingDays)
-        {
+    public int computeEmpWage(CompanyEmpWage companyEmpWage) {
+        int empHrs = 0, totalEmpHrs = 0, totalWorkingDays = 0;
+        Random random = new Random();
+        while (totalEmpHrs <= companyEmpWage.maxHoursPerMonth && totalWorkingDays < companyEmpWage.numOfWorkingDays) {
             totalWorkingDays++;
 
-            int empCheck=random.nextInt(3);
+            int empCheck = random.nextInt(3);
 
-            switch(empCheck)
-            {
+            switch (empCheck) {
                 case IS_PART_TIME:
-                    empHrs=4;
+                    empHrs = 4;
                     break;
 
                 case IS_FULL_TIME:
-                    empHrs=8;
+                    empHrs = 8;
                     break;
                 default:
-                    empHrs=0;
+                    empHrs = 0;
             }
-            totalEmpHrs+=empHrs;
-            System.out.println("day: "+totalWorkingDays + " EmpHrs: "+empHrs);
+            totalEmpHrs += empHrs;
+            System.out.println("day: " + totalWorkingDays + " EmpHrs: " + empHrs);
         }
 
         return totalEmpHrs * companyEmpWage.empRatePerHour;
     }
 
 
-
     public static void main(String[] args) {
-        EmployeeWageBuilder empWageBuilder=new EmployeeWageBuilder();
+        IcomputeEmpWage empWageBuilder = new EmployeeWageBuilder();
+
         empWageBuilder.addCompanyEmpWage("Dmart", 20, 2, 10);
         empWageBuilder.addCompanyEmpWage("Reliance", 10, 4, 20);
         empWageBuilder.computeEmpWage();
+
     }
 }
+
