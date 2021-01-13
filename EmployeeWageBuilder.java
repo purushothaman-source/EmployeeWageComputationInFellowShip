@@ -1,5 +1,6 @@
 package com.uccases;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 interface IcomputeEmpWage {
@@ -40,23 +41,22 @@ public class EmployeeWageBuilder implements IcomputeEmpWage {
     public static final int IS_PART_TIME = 1;
     public static final int IS_FULL_TIME = 2;
 
-    public int numOfCompany = 0;
-
-    CompanyEmpWage companyEmpWage[];
+    ArrayList<CompanyEmpWage> companyEmpWageList;
 
     public EmployeeWageBuilder() {
-        companyEmpWage = new CompanyEmpWage[5];
+        companyEmpWageList = new ArrayList<CompanyEmpWage>();
     }
 
     public void addCompanyEmpWage(String company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth) {
-        companyEmpWage[numOfCompany] = new CompanyEmpWage(company, empRatePerHour, numOfWorkingDays, maxHoursPerMonth);
-        numOfCompany++;
+        CompanyEmpWage companyEmpWage = new CompanyEmpWage(company, empRatePerHour, numOfWorkingDays, maxHoursPerMonth);
+        companyEmpWageList.add(companyEmpWage);
     }
 
     public void computeEmpWage() {
-        for (int i = 0; i < numOfCompany; i++) {
-            companyEmpWage[i].setTotalEmpWage(this.computeEmpWage(companyEmpWage[i]));
-            System.out.println(companyEmpWage[i]);
+        for (int i = 0; i < companyEmpWageList.size(); i++) {
+            CompanyEmpWage company=companyEmpWageList.get(i);
+            company.setTotalEmpWage(this.computeEmpWage(company));
+            System.out.println(company);
         }
     }
 
